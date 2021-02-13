@@ -10,6 +10,7 @@ on:
 
 jobs:
   ready:
+    runs-on: ubuntu-latest
 
     # TODO Check the CHANGELOG file is of a valid format.
       # https://github.com/marketplace/actions/changelog-reader validate up to the unreleased version
