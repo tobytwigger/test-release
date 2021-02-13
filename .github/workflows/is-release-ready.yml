@@ -4,14 +4,15 @@ on:
   # TODO Trigger when a push is made and a pull request is opened on the same branch, and when the
   # pull request is updated (i.e. the name not a push).
   pull_request:
-    branches:
-      - master
-    types: [ closed ]
+    types: [ opened, edited, reopened, synchronize ]
 
 jobs:
   ready:
     runs-on: ubuntu-latest
 
+    steps:
+      - id: test
+        run: echo "Passed"
     # TODO Check the CHANGELOG file is of a valid format.
       # https://github.com/marketplace/actions/changelog-reader validate up to the unreleased version
       # Ensure unreleased version contains something
