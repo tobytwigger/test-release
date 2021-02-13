@@ -24,7 +24,7 @@ jobs:
     # the pull request head branch starts release/
     if: |
       github.event.pull_request.merged == true ||
-      startsWith(github.event.pull_request.head.ref, 'release/') ||
+      startsWith(github.event.pull_request.head.ref, 'release/')
 #       TODO the pull request version number is valid
 
     runs-on: ubuntu-latest
