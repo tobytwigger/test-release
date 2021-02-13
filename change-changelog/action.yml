@@ -1,0 +1,13 @@
+name: Release Changelog File
+description: Create a new release in a keepachangelog.com format
+
+runs:
+  using: "composite"
+  steps:
+    - id: changelog
+      run: ${{ github.action_path }}/phpstan.sh || { cat ${{ github.workspace }}/output.log ; exit 1; }
+      shell: bash
+
+branding:
+  icon: 'check-square'
+  color: 'purple'

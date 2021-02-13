@@ -1,0 +1,20 @@
+name: Ensure the release is ready
+
+on:
+  # TODO Trigger when a push is made and a pull request is opened on the same branch, and when the
+  # pull request is updated (i.e. the name not a push).
+  pull_request:
+    branches:
+      - master
+    types: [ closed ]
+
+jobs:
+  ready:
+
+    # TODO Check the CHANGELOG file is of a valid format.
+      # https://github.com/marketplace/actions/changelog-reader validate up to the unreleased version
+      # Ensure unreleased version contains something
+      # Has [Unreleased] and has contents in it.
+        #       # docker run -it --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show unreleased
+        # This command shows unreleased (and only valid headers), can just check it contains at least something
+      # Validate unreleased ONLY has proper headers

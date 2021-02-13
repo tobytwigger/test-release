@@ -1,0 +1,50 @@
+name: Release a new version
+
+on:
+  # Trigger the release when a pull request to master is merged or closed without merge.
+  pull_request:
+    branches:
+      - master
+    types: [ closed ]
+
+jobs:
+  release:
+    # Only trigger if the pull request was actually merged,
+    # the pull request head branch starts release/
+    # TODO the pull request version number is valid
+    if: |
+      github.event.pull_request.merged == true ||
+      startsWith(github.event.pull_request.head.ref, 'release/') ||
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the main branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Retrieve dependencies from the cache
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+    # TODO All the following steps
+    # Get the version number to use
+    # Update the changelog
+      # (https://github.com/thomaseizinger/keep-a-changelog-new-release)
+    # Get the contents of the changelog for this version
+    # Create a release using the contents of the changelog
+      # To create release(https://github.com/actions/create-release)
+      # To get releaes contents (https://github.com/marketplace/actions/changelog-reader)
+    # Checkout develop
+    # Merge in changes from master
+    # Email (?) to say release successful
