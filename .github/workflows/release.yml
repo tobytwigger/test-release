@@ -52,6 +52,9 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Test echoing output
+        id: test
+        run: echo ${{needs.version.outputs.version}}
     # TODO All the following steps
     # Get the version number to use
     # Update the changelog
