@@ -23,7 +23,7 @@ jobs:
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
-          text: ${{ $version }}
+          text: ${{ env.version }}
           regex: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
 
       - name: Abort if version incorrect
