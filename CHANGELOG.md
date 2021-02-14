@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### NotValid
 - Some test
 
+## [2.0.3] - 2020-02-05
+### Added
+- doctrine/dbal dependency for editing migrations
+- Logout function for UserAuthentication
+- UserRepossssitory::getWhereEmail function to retrieve a user via email
+- UserRepository::getFromControlId function to retrieve a user via control ID
+- UserRepository::getFromRememberToken function to get by remember token
+- Functions to get the control user from the database user
+
+### NotValid
+- Some test
+
 ## [2.0.0] - 2020-02-04
 ### Added
 - doctrine/dbal dependency for editing migrations
@@ -63,7 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial Release
 
-[Unreleased]: https://github.com/tobytwigger/test-release-package/compare/v2.0.0...~HEAD
+[Unreleased]: https://github.com/tobytwigger/test-release-package/compare/v2.0.3...~HEAD
+[2.0.3]: https://github.com/tobytwigger/test-release-package/compare/v2.0.0...v2.0.3
 [2.0.0]: https://github.com/tobytwigger/test-release-package/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/tobytwigger/test-release-package/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/tobytwigger/test-release-package/compare/v1.0.2...v1.0.3

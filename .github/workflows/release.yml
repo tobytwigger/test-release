@@ -50,6 +50,11 @@ jobs:
         if: ${{ steps.regex-match.outputs.match == '' }}
         run: exit 1
 
+      - name: Update CHANGELOG with version
+        uses: thomaseizinger/keep-a-changelog-new-release@v1
+        with:
+          version: ${{ needs.version.outputs.version }}
+
     # TODO All the following steps
     # Get the version number to use
     # Update the changelog
