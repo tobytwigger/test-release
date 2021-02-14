@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Test 1
 
+### InvalidBug
+- Something
+
 ## [2.0.3] - 2020-02-05
 ### Added
 - doctrine/dbal dependency for editing migrations

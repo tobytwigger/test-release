@@ -61,10 +61,6 @@ jobs:
           validation_depth: 1000
           version: 'Unreleased'
           path: ./CHANGELOG.md
-        # https://github.com/marketplace/actions/changelog-reader validate up to the unreleased version
-
-
-      # TODO Validate the unreleased section only contains allowed types (e.g. fixed, added)
 
       - id: test-release
         name: Dry release
