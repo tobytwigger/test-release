@@ -47,6 +47,7 @@ jobs:
 
       - name: Abort if version incorrect
         id: abort-version
+        if: ${{ steps.regex-match.outputs.match == '' }}
         run: exit 1
 
     # TODO All the following steps
