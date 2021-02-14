@@ -51,7 +51,7 @@ jobs:
         with:
           ref: master
 
-      - id: sdd
+      - id: sdds
         run: cat CHANGELOG.md
 
       - name: Update CHANGELOG with version
