@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      version: ${{ steps.version-calculator.outputs.version }}
+      version: ${{ steps.version-export.outputs.version }}
 
     steps:
       - id: version-calculator
         name: Calculate the current version
-        run: echo "::set-output name=version::${{ github.event.pull_request.title }}"
+        run: echo "version=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
 
       - name: Check version constraint validity
         uses: actions-ecosystem/action-regex-match@v2
@@ -30,6 +30,11 @@ jobs:
         id: abort-version
         if: ${{ steps.regex-match.outputs.match == '' }}
         run: exit 1
+
+      - name: Export the version to be useable by other jobs
+        id: version-export
+        name: Calculate the current version
+        run: echo "::set-output name=version::${{ env.version }}"
 
   release:
     # Only trigger if the pull request was actually merged,
