@@ -58,7 +58,7 @@ jobs:
         name: Validate the unreleased version
         uses: mindsers/changelog-reader-action@v2
         with:
-          validation_depth: 1000
+          validation_depth: 10
           version: 'Unreleased'
           path: ./CHANGELOG.md
 
