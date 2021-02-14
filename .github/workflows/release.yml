@@ -33,7 +33,6 @@ jobs:
 
       - name: Export the version to be useable by other jobs
         id: version-export
-        name: Calculate the current version
         run: echo "::set-output name=version::${{ env.version }}"
 
   release:
