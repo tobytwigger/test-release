@@ -51,9 +51,12 @@ jobs:
         with:
           ref: master
 
+      - id: sdd
+        run: cat CHANGELOG.md
+
       - name: Update CHANGELOG with version
         id: update-changelog
-        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4
+        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4 -o CHANGELOG.md
 
       - id: sdd
         run: cat CHANGELOG.md
