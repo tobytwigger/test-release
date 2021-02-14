@@ -1,3 +1,3 @@
 #!/bin/bash
 
-release 2.0.4 -o CHANGELOG.md
+changelog release 2.0.4 -o CHANGELOG.md
