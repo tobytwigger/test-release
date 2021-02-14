@@ -1,15 +1,4 @@
-FROM golang:alpine AS build
+FROM rcmachado/changelog:latest
 
-WORKDIR /app
-
-COPY . /app
-RUN go build -o changelog .
-
-FROM alpine:latest
-
-RUN apk add --no-cache git openssh
-
-WORKDIR /app
-COPY --from=build /app/changelog /usr/local/bin/changelog
-
-ENTRYPOINT ["/usr/local/bin/changelog", "release", "2.0.4", "-o", "CHANGELOG.md"]
+ENTRYPOINT ["ls", "-la", "/usr/local/bin/"]
+#ENTRYPOINT ["/usr/local/bin/changelog", "release", "2.0.4", "-o", "CHANGELOG.md"]
