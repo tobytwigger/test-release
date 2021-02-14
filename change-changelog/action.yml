@@ -2,8 +2,7 @@ name: 'Update CHANGELOG file'
 description: 'Update the changelog file'
 runs:
   using: 'docker'
-  image: 'docker://rcmachado/changelog:latest'
-  entrypoint: '["release", "2.0.4", "-o", "CHANGELOG.md"]'
+  image: 'Dockerfile'
 
 branding:
   icon: 'check-square'
