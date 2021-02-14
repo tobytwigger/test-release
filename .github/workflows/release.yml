@@ -51,9 +51,6 @@ jobs:
         with:
           ref: master
 
-          version: ${{ needs.version.outputs.version }}
-
-
       - name: Update CHANGELOG with version
         id: update-changelog
         uses: tobytwigger/test-release/change-changelog@develop
