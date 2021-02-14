@@ -21,7 +21,7 @@ jobs:
 
   release:
     # Only trigger if the pull request was actually merged,
-    # the pull request head branch starts release/
+    # the pull request head branch starts with release/
     if: |
       github.event.pull_request.merged == true ||
       startsWith(github.event.pull_request.head.ref, 'release/')
@@ -38,23 +38,17 @@ jobs:
         with:
           ref: master
 
-      - name: Install dependencies from the cache
-        id: composer-cache
-        uses: actions/cache@v2
+      - name: Check version constraint validity
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
         with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+          text: ${{ needs.version.outputs.version }}
+          regex: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
 
-      - name: Install fresh dependencies
-        id: composer-fresh
-        if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Abort if version incorrect
+        id: abort-version
+        run: exit 1
 
-      - name: Test echoing output
-        id: test
-        run: echo ${{needs.version.outputs.version}}
     # TODO All the following steps
     # Get the version number to use
     # Update the changelog
