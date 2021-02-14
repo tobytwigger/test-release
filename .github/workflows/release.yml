@@ -9,6 +9,12 @@ on:
 
 jobs:
   version:
+    # Only trigger if the pull request was actually merged,
+    # the pull request head branch starts with release/
+    if: |
+      github.event.pull_request.merged == true ||
+      startsWith(github.event.pull_request.head.ref, 'release/')
+
     runs-on: ubuntu-latest
 
     outputs:
@@ -35,17 +41,29 @@ jobs:
         id: version-export
         run: echo "::set-output name=version::${{ env.version }}"
 
-  release:
-    # Only trigger if the pull request was actually merged,
-    # the pull request head branch starts with release/
-    if: |
-      github.event.pull_request.merged == true ||
-      startsWith(github.event.pull_request.head.ref, 'release/')
-
+  update-changelog:
     runs-on: ubuntu-latest
+    container:
+      image: rcmachado/changelog
 
     needs: version
+    steps:
+      - name: Checkout the main branch
+        id: checkout-main
+        uses: actions/checkout@v2
+        with:
+          ref: master
 
+      - name: Update CHANGELOG with version
+        id: update-changelog
+        run: tobytwigger/test-release/change-changelog@develop
+
+      - id: sdd
+        run: cat CHANGELOG.md
+
+  release:
+    runs-on: ubuntu-latest
+    needs: update-changelog
     steps:
       - name: Checkout the main branch
         id: checkout-main
@@ -57,11 +75,11 @@ jobs:
 
       - name: Update CHANGELOG with version
         id: update-changelog
-        run: docker run -it --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release ${{ needs.version.outputs.version }} -o CHANGELOG.md
+        run: docker run --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release ${{ needs.version.outputs.version }} -o CHANGELOG.md
 
       - id: sdd
         run: cat CHANGELOG.md
-        
+
     # TODO All the following steps
     # Get the version number to use
     # Update the changelog

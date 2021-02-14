@@ -1,3 +1,3 @@
 #!/bin/bash
 
-"$GITHUB_WORKSPACE"/vendor/bin/phpstan analyse --configuration "$GITHUB_WORKSPACE"/phpstan.neon
+release 2.0.4

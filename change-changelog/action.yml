@@ -1,12 +1,9 @@
-name: Release Changelog File
-description: Create a new release in a keepachangelog.com format
-
+name: 'Update CHANGELOG file'
+description: 'Update the changelog file'
 runs:
-  using: "composite"
-  steps:
-    - id: changelog
-      run: ${{ github.action_path }}/phpstan.sh || { cat ${{ github.workspace }}/output.log ; exit 1; }
-      shell: bash
+  using: 'docker'
+  image: 'rcmachado/changelog'
+  entrypoint: 'phpstan.sh'
 
 branding:
   icon: 'check-square'
