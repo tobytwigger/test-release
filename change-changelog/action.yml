@@ -2,7 +2,7 @@ name: 'Update CHANGELOG file'
 description: 'Update the changelog file'
 runs:
   using: 'docker'
-  image: 'rcmachado/changelog'
+  image: 'docker://rcmachado/changelog:latest'
   entrypoint: 'phpstan.sh'
 
 branding:
