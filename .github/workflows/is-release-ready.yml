@@ -1,22 +1,67 @@
 name: Ensure the release is ready
 
 on:
-  # TODO Trigger when a push is made and a pull request is opened on the same branch, and when the
-  # pull request is updated (i.e. the name not a push).
   pull_request:
     types: [ opened, edited, reopened, synchronize ]
 
 jobs:
+  version:
+    # Only trigger if the pull request was actually merged,
+    # the pull request head branch starts with release/
+    if: |
+      github.event.pull_request.merged == true ||
+      startsWith(github.event.pull_request.head.ref, 'release/')
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version-export.outputs.version }}
+
+    steps:
+      - id: version-calculator
+        name: Calculate the current version
+        run: echo "version=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+
+      - name: Check version constraint validity
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ env.version }}
+          regex: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+      - name: Abort if version incorrect
+        id: abort-version
+        if: ${{ steps.regex-match.outputs.match == '' }}
+        run: exit 1
+
+      - name: Export the version to be useable by other jobs
+        id: version-export
+        run: echo "::set-output name=version::${{ env.version }}"
+
   ready:
     runs-on: ubuntu-latest
 
+    needs: version
+
     steps:
-      - id: test
-        run: echo "Passed"
-    # TODO Check the CHANGELOG file is of a valid format.
-      # https://github.com/marketplace/actions/changelog-reader validate up to the unreleased version
-      # Ensure unreleased version contains something
-      # Has [Unreleased] and has contents in it.
-        #       # docker run -it --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show unreleased
-        # This command shows unreleased (and only valid headers), can just check it contains at least something
-      # Validate unreleased ONLY has proper headers
+      - name: Checkout the main branch
+        id: checkout-main
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - id: unreleased-not-empty
+        name: Check the unreleased section isn't empty
+        run: if [ -z "$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show unreleased)" ] ; then exit 1; fi
+
+      - id: validate-released
+        name: Validate the unreleased version
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_depth: 10
+          version: 'Unreleased'
+          path: ./CHANGELOG.md
+
+      - id: test-release
+        name: Dry release
+        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4
