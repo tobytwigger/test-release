@@ -1,9 +1,0 @@
-name: 'Update CHANGELOG file'
-description: 'Update the changelog file'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-
-branding:
-  icon: 'check-square'
-  color: 'purple'
