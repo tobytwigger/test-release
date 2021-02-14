@@ -3,7 +3,7 @@ description: 'Update the changelog file'
 runs:
   using: 'docker'
   image: 'docker://rcmachado/changelog:latest'
-  entrypoint: 'phpstan.sh'
+  entrypoint: '["release", "2.0.4", "-o", "CHANGELOG.md"]'
 
 branding:
   icon: 'check-square'
