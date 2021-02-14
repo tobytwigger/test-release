@@ -5,7 +5,7 @@ on:
   pull_request:
     branches:
       - master
-    types: [ opened, edited, reopened, synchronize ]
+    types: [ closed ]
 
 jobs:
   version:
@@ -51,25 +51,37 @@ jobs:
         with:
           ref: master
 
-      - id: sdds
-        run: cat CHANGELOG.md
-
       - name: Update CHANGELOG with version
         id: update-changelog
-        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4 -o CHANGELOG.md
+        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release ${{ needs.version.outputs.version }} -o CHANGELOG.md
 
-      - id: sdd
-        run: cat CHANGELOG.md
+      - name: Commit CHANGELOG updates
+        id: commit-changelog
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: 'CHANGELOG.md'
+          author_name: Toby Twigger
+          author_email: tobytwigger1@gmail.com
+          branch: master
+          message: "Update CHANGELOG to release v${{ needs.version.outputs.version }}"
+          push: true
 
-    # TODO All the following steps
-    # Get the version number to use
-    # Update the changelog
-      # (https://github.com/thomaseizinger/keep-a-changelog-new-release)
-      # Detect previous version from most recent release
-    # Get the contents of the changelog for this version
-    # Create a release using the contents of the changelog
-      # To create release(https://github.com/actions/create-release)
-      # To get releaes contents (https://github.com/marketplace/actions/changelog-reader)
+      - name: Get CHANGELOG contents
+        id: get-changelog
+        run: echo "changelog=$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})" >> $GITHUB_ENV
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ needs.version.outputs.version }}"
+          release_name: "v${{ needs.version.outputs.version }}"
+          body: ${{ env.changelog }} # TODO Add links to release
+          draft: false
+          prerelease: false
+          
     # Checkout develop
     # Merge in changes from master
     # Email (?) to say release successful
