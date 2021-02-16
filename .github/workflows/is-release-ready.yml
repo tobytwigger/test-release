@@ -1,8 +1,6 @@
 name: Ensure the release is ready
 
 on:
-  # TODO Trigger when a push is made and a pull request is opened on the same branch, and when the
-  # pull request is updated (i.e. the name not a push).
   pull_request:
     types: [ opened, edited, reopened, synchronize ]
 
