@@ -65,9 +65,9 @@ jobs:
           message: "Update CHANGELOG to release v${{ needs.version.outputs.version }}"
           push: true
 
-      - name: Get CHANGELOG contents
-        id: get-changelog
-        run: echo "changelog=\"$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})\"" >> $GITHUB_ENV
+#      - name: Get CHANGELOG contents
+#        id: get-changelog
+#        run: echo "changelog=\"$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})\"" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
