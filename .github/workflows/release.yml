@@ -5,7 +5,7 @@ on:
   pull_request:
     branches:
       - master
-    types: [ closed ]
+    types: [ opened, edited, reopened, synchronize ]
 
 jobs:
   version:
@@ -51,24 +51,15 @@ jobs:
         with:
           ref: master
 
+      - id: sdds
+        run: cat CHANGELOG.md
+
       - name: Update CHANGELOG with version
         id: update-changelog
-        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release ${{ needs.version.outputs.version }} -o CHANGELOG.md
+        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4 -o CHANGELOG.md
 
-      - name: Commit CHANGELOG updates
-        id: commit-changelog
-        uses: EndBug/add-and-commit@v7
-        with:
-          add: 'CHANGELOG.md'
-          author_name: Toby Twigger
-          author_email: tobytwigger1@gmail.com
-          branch: master
-          message: "Update CHANGELOG to release v${{ needs.version.outputs.version }}"
-          push: true
-
-      - name: Get CHANGELOG contents
-        id: get-changelog
-        run: echo "::set-output name=changelog::$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})"
+      - id: sdd
+        run: cat CHANGELOG.md
 
       - name: Create Release
         id: create_release
