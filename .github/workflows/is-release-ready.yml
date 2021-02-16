@@ -14,8 +14,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: Echo it
-        run: echo "$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show unreleased)"
+
+      - name: View the changelog
+        run: cat CHANGELOG.md
 
       - id: unreleased-not-empty
         name: Check the unreleased section isn't empty
