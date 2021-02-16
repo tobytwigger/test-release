@@ -9,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the main branch
-        id: checkout-main
+      - name: Checkout the branch
+        id: checkout-branch
         uses: actions/checkout@v2
-        with:
-          ref: master
 
       - name: View the changelog
         run: cat CHANGELOG.md
