@@ -31,4 +31,4 @@ jobs:
 
       - id: test-release
         name: Dry release
-        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4
+        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 1.0.0
