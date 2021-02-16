@@ -67,7 +67,7 @@ jobs:
 
       - name: Get CHANGELOG contents
         id: get-changelog
-        run: echo "$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})" >> $GITHUB_ENV
+        run: echo "changelog=\"$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})\"" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -77,7 +77,7 @@ jobs:
         with:
           tag_name: "v${{ needs.version.outputs.version }}"
           release_name: "v${{ needs.version.outputs.version }}"
-          body: $(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }}) # TODO Add links to release
+          body: ${{ env.changelog }} # TODO Add links to release
           draft: false
           prerelease: false
           
