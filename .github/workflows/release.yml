@@ -50,15 +50,24 @@ jobs:
         with:
           ref: master
 
-      - id: sdds
-        run: cat CHANGELOG.md
-
       - name: Update CHANGELOG with version
         id: update-changelog
         run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release ${{ needs.version.outputs.version }} -o CHANGELOG.md
 
-      - id: sdd
-        run: cat CHANGELOG.md
+      - name: Commit CHANGELOG updates
+        id: commit-changelog
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: 'CHANGELOG.md'
+          author_name: Toby Twigger
+          author_email: tobytwigger1@gmail.com
+          branch: master
+          message: "Update CHANGELOG to release v${{ needs.version.outputs.version }}"
+          push: true
+
+      - name: Get CHANGELOG contents
+        id: get-changelog
+        run: echo "changelog=$(docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog show ${{ needs.version.outputs.version }})" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -68,12 +77,9 @@ jobs:
         with:
           tag_name: "v${{ needs.version.outputs.version }}"
           release_name: "v${{ needs.version.outputs.version }}"
-          body: "${{ steps.get-changelog.outputs.changelog }}" # TODO Add links to the release
+          body: ${{ env.changelog }} # TODO Add links to release
           draft: false
           prerelease: false
-          # TODO This is currently not picking up bullet points in the body. I've added "" round body, hopefully that will fix it
           
     # TODO Checkout develop
     # Merge in changes from master
-    # Email (?) to say release successful
-    # TODO Check 'v' is always included in release versions
