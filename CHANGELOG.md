@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Deprecated
-- This thing or another
-
 ## [2.0.10] - 2021-02-16
 ### Added
 - my added feature
