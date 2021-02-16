@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.10] - 2021-02-16
 ### Added
 - my added feature
 
@@ -111,7 +112,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial Release
 
-[Unreleased]: https://github.com/tobytwigger/test-release-package/compare/v2.0.9...HEAD
+[Unreleased]: https://github.com/tobytwigger/test-release-package/compare/v2.0.10...HEAD
+[2.0.10]: https://github.com/tobytwigger/test-release-package/compare/v2.0.9...2.0.10
 [2.0.9]: https://github.com/tobytwigger/test-release-package/compare/v2.0.5...2.0.9
 [2.0.5]: https://github.com/tobytwigger/test-release-package/compare/v2.0.4...2.0.5
 [2.0.4]: https://github.com/tobytwigger/test-release-package/compare/v2.0.3...2.0.4
