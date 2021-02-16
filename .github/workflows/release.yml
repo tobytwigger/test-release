@@ -1,7 +1,6 @@
 name: Release a new version
 
 on:
-  # Trigger the release when a pull request to master is merged or closed without merge.
   pull_request:
     branches:
       - master
@@ -56,7 +55,7 @@ jobs:
 
       - name: Update CHANGELOG with version
         id: update-changelog
-        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release 2.0.4 -o CHANGELOG.md
+        run: docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog release ${{ needs.version.outputs.version }} -o CHANGELOG.md
 
       - id: sdd
         run: cat CHANGELOG.md
