@@ -1,1 +1,0 @@
-docker run -i --rm -v "$(pwd)":/usr/local/app -w /usr/local/app rcmachado/changelog -o CHANGELOG.md $@
