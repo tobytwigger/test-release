@@ -13,7 +13,7 @@ jobs:
     if: |
       github.event.pull_request.merged == true ||
       startsWith(github.event.pull_request.head.ref, 'release/')
-
+## Got released when it shouldnt have? https://github.com/tobytwigger/test-release/actions/runs/572972940
     runs-on: ubuntu-latest
 
     outputs:
