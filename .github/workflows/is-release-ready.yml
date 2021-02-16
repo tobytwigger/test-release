@@ -61,6 +61,7 @@ jobs:
           validation_depth: 10
           version: 'Unreleased'
           path: ./CHANGELOG.md
+      ## TODO Not sure validation is working fully? Need to test all these
 
       - id: test-release
         name: Dry release

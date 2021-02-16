@@ -78,10 +78,12 @@ jobs:
         with:
           tag_name: "v${{ needs.version.outputs.version }}"
           release_name: "v${{ needs.version.outputs.version }}"
-          body: ${{ steps.get-changelog.outputs.changelog }} # TODO Add links to the release
+          body: "${{ steps.get-changelog.outputs.changelog }}" # TODO Add links to the release
           draft: false
           prerelease: false
+          # TODO This is currently not picking up bullet points in the body. I've added "" round body, hopefully that will fix it
           
-    # Checkout develop
+    # TODO Checkout develop
     # Merge in changes from master
     # Email (?) to say release successful
+    # TODO Check 'v' is always included in release versions
